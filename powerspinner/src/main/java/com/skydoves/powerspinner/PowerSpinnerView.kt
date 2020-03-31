@@ -148,6 +148,13 @@ class PowerSpinnerView : AppCompatTextView, LifecycleObserver {
       updateSpinnerWindow()
     }
 
+  /** A background drawable of the spinner popup. */
+  var spinnerPopupBackgroundDrawable: Drawable? = null
+    set(value) {
+      field = value
+      updateSpinnerWindow()
+    }
+
   /** A elevation of the spinner popup. */
   @Px
   var spinnerPopupElevation: Int = dp2Px(4)
@@ -331,8 +338,10 @@ class PowerSpinnerView : AppCompatTextView, LifecycleObserver {
         }
       }
       this.spinnerBody.apply {
-        if (this@PowerSpinnerView.spinnerPopupBackgroundColor == outRangeColor) {
+        if (this@PowerSpinnerView.spinnerPopupBackgroundColor == outRangeColor && this@PowerSpinnerView.spinnerPopupBackgroundDrawable == null) {
           background = this@PowerSpinnerView.background
+        } else if (this@PowerSpinnerView.spinnerPopupBackgroundDrawable != null) {
+          setBackground(this@PowerSpinnerView.spinnerPopupBackgroundDrawable)
         } else {
           setBackgroundColor(this@PowerSpinnerView.spinnerPopupBackgroundColor)
         }
@@ -561,6 +570,9 @@ class PowerSpinnerView : AppCompatTextView, LifecycleObserver {
     fun setDividerColor(@ColorInt value: Int) = apply { this.powerSpinnerView.dividerColor = value }
     fun setSpinnerPopupBackgroundColor(@ColorInt value: Int) = apply {
       this.powerSpinnerView.spinnerPopupBackgroundColor = value
+    }
+    fun setSpinnerPopupBackgroundDrawable(value: Drawable) = apply {
+      this.powerSpinnerView.spinnerPopupBackgroundDrawable = value
     }
 
     fun setDismissWhenNotifiedItemSelected(value: Boolean) = apply {
